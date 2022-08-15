@@ -1,5 +1,5 @@
 from flask import render_template
-from womenssurfguide import app,db
+from surfproject import app,db
 
 
 @app.route("/")

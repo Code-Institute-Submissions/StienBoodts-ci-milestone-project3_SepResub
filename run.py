@@ -1,5 +1,5 @@
 import os
-from womenssurfguide import app
+from surfproject import app
 
 
 if __name__ == "__main__":
