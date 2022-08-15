@@ -4,4 +4,4 @@ from surfproject.models import User, Review, Countries, Camps
 
 @app.route("/")
 def home():
-    return render_template("base.html")
+    return render_template("camps.html")
