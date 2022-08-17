@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="light-blue-text text-darken-4 center-align">Add Women's Surf Camp</h3>
+<p>Recently visited a women's surf camp you'd like to review? 
+    Own a women's surf camp you'd like to share and invite others to review?
+    Simply add your Camp Name to be added to our collection.
+    Once added, you can start writing or receiving reviews.
+</p>
+<div class="row card-panel grey lighten-5">
+    <form class="col s12" method="POST" action="{{ url_for('new_camp') }}">
+        <!-- camp name -->
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-folder-open prefix light-blue-text text-darken-4"></i>
+                <input id="camp_name" name="camp_name" minlength="3" maxlength="25" type="text" class="validate" required>
+                <label for="camp_name">Camp Name</label>
+            </div>
+        </div>
+        <!-- submit button -->
+        <div class="row">
+            <div class="col s12 center-align">
+                <button type="submit" class="btn-large teal darken-6">
+                    Add Camp <i class="fas fa-plus-square right"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+

@@ -1,6 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3 class="center-align">Camps</h3>
+<h3 class="light-blue-text text-darken-4 center-align">Camps</h3>
 
+<div class="row">
+    <div class="col s12 center-align">
+        <a href="{{ url_for('new_camp') }}" class="btn-large teal darken-2">
+            Add Camp <i class="fas fa-plus-square right"></i>
+        </a>
+    </div>
+</div>
+
+
+<div class="row">
+    {% for camp in camps %}
+    <div class="col s12 m6 l3">
+      <div class="card teal darken-6 center-align">
+        <div class="card-content white-text">
+          <span class="card-title">{{ camp.camp_name }}</span>
+        </div>
+        <div class="card-action center-align">
+          <a href="#" class="btn g accent-4">Read Reviews</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 {% endblock %}
