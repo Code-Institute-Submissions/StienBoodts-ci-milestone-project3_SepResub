@@ -9,4 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let selects = document.querySelectorAll('select');
     M.FormSelect.init(selects);
-});
+
+// Initialise Materialize Parallax
+
+    let paral = document.querySelectorAll('.parallax');
+    vM.Parallax.init(paral);
+  });

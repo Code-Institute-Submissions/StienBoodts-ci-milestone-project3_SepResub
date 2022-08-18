@@ -5,7 +5,7 @@
 
 
 <div class="row card-panel grey lighten-5">
-    <form class="col s12" method="POST" action="{{ url_for('new_review') }}">
+    <form class="col s12" method="POST" action="{{ url_for('edit_review') }}">
         <!-- Review name -->
         <div class="row">
             <div class="input-field col s12">
@@ -14,8 +14,8 @@
                 <label for="review_name">Name</label>
             </div>
         </div>
-         <!-- camp name -->
-        <div class="row">
+         <!-- category id -->
+         <div class="row">
             <div class="input-field col s12">
                 <i class="fas fa-folder-open prefix light-blue-text text-darken-4"></i>
                 <select id="camp_id" name="camp_id" class="validate" required>
@@ -24,9 +24,9 @@
                         <option value="{{ camp.id }}">{{ camps.camp_name }}</option>
                     {% endfor %}
                 </select>
-                <label for="category_id">Camp</label>
+                <label for="camp_id">Camp</label>
             </div>
-            <p>If you can't find your camp, add it <a href="{{ url_for('new_camp') }}">here.</a></p>
+            <p>If you can't find your camp, add it <a href="{{ url_for('edit_camp') }}">here.</a></p>
         </div>
         <!-- camp review -->
         <div class="row">
@@ -40,7 +40,7 @@
         <!-- submit button -->
         <div class="row">
             <div class="col s12 center-align">
-                <button type="submit" class="btn-large teal darken-5 waves-effect waves-light">
+                <button type="submit" class="btn-large teal darken-5">
                     Add Review <i class="fas fa-plus-square right"></i>
                 </button>
             </div>
