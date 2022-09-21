@@ -7,8 +7,8 @@ def home():
     return render_template("home.html")
 
 @app.route("/camps")
-def camp():
-    camp = list(Camp.query.order_by(Camp.camp_name).all())
+def camps():
+    camps = list(Camp.query.order_by(Camp.camp_name).all())
     return render_template("camps.html", camps=camps)
 
 
@@ -29,7 +29,7 @@ def new_camp():
 
 @app.route("/new_review", methods=["GET","POST"])
 def new_review():
-    camps = list(Camps.query.order_by(Camps.camp_name).all())
+    camps = list(Camp.query.order_by(Camp.camp_name).all())
     if request.method == "POST":
         review = Review(
             review_name=request.form.get("review_name"),
