@@ -1,14 +1,14 @@
 from flask import render_template, request, redirect, url_for
 from surfproject import app, db
-from surfproject.models import Review, Camps
+from surfproject.models import Review, Camp
 
 @app.route("/")
 def home():
     return render_template("home.html")
 
 @app.route("/camps")
-def camps():
-    camps = list(Camps.query.order_by(Camps.camp_name).all())
+def camp():
+    camp = list(Camp.query.order_by(Camp.camp_name).all())
     return render_template("camps.html", camps=camps)
 
 
@@ -20,7 +20,7 @@ def reviews(camp_id):
 @app.route("/new_camp", methods=["GET", "POST"])
 def new_camp():
     if request.method == "POST":
-        camp = Camps(camp_name=request.form.get("camp_name"))
+        camp = Camp(camp_name=request.form.get("camp_name"))
         db.session.add(camp)
         db.session.commit()
         return redirect(url_for("camps"))
