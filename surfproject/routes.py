@@ -27,7 +27,7 @@ def new_camp():
     return render_template("new_camp.html")
 
 
-@app.route("/new_review", methods=["GET","POST"])
+@app.route("/new_review", methods=["GET", "POST"])
 def new_review():
     camps = list(Camp.query.order_by(Camp.camp_name).all())
     if request.method == "POST":
@@ -42,13 +42,22 @@ def new_review():
     return render_template("new_review.html", camps=camps)
 
 
-@app.route("/edit_review/<int:review_id>", methods=["GET","POST"])
+@app.route("/edit_review/<int:review_id>", methods=["GET", "POST"])
 def edit_review(review_id):
     review = Review.query.get_or_404(review_id)
-    camps = list(Camps.query.order_by(Camps.camp_name).all())
+    camps = list(Camp.query.order_by(Camp.camp_name).all())
     if request.method == "POST":
         review.review_name = request.form.get("review_name"),
         review.review_text = request.form.get("review_text"),
         review.camp_id = request.form.get("camp_id")
         db.session.commit()
+        return redirect(url_for("camps"))
     return render_template("edit_review.html", review=review, camps=camps)
+
+
+@app.route("/delete_review/<int:review_id>")
+def delete_review(review_id):
+    review = Review.query.get_or_404(review_id)
+    db.session.delete(review)
+    db.session.commit()
+    return redirect(url_for("reviews"))
