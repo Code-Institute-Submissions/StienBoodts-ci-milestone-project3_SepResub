@@ -38,7 +38,7 @@ def new_review():
         )
         db.session.add(review)
         db.session.commit()
-        return redirect(url_for("home"))
+        return redirect(url_for("camps"))
     return render_template("new_review.html", camps=camps)
 
 

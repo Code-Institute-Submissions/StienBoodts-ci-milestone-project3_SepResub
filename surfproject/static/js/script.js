@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
 // Initialise Materialize Select
 
-    let selects = document.querySelectorAll('select');
+    var selects = document.querySelectorAll('select');
     M.FormSelect.init(selects);
 
 // Initialise Materialize Parallax
 
     let paral = document.querySelectorAll('.parallax');
     vM.Parallax.init(paral);
-  });
+});

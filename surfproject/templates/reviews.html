@@ -3,6 +3,14 @@
 
 <h3 class="light-blue-text text-darken-4 center-align">Reviews</h3>
 
+<div class="row">
+    <div class="col s12 center-align">
+        <a href="{{ url_for('new_review') }}" class="btn-large teal darken-2 waves-effect waves-light">
+            Add Review <i class="fas fa-plus-square right"></i>
+        </a>
+    </div>
+</div>
+
 
 <ul class="collapsible">
     {% for review in reviews %}

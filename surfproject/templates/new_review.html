@@ -21,10 +21,10 @@
                 <select id="camp_id" name="camp_id" class="validate" required>
                     <option value="" disabled selected>Choose Camp</option>
                     {% for camp in camps %}
-                        <option value="{{ camp.id }}">{{ camps.camp_name }}</option>
+                        <option value="{{ camp.id }}">{{ camp.camp_name }}</option>
                     {% endfor %}
                 </select>
-                <label for="category_id">Camp</label>
+                <label for="camp_id">Camp</label>
             </div>
             <p>If you can't find your camp, add it <a href="{{ url_for('new_camp') }}">here.</a></p>
         </div>
