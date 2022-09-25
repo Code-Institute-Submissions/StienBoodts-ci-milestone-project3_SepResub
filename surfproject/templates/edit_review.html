@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3 class="center-align">Add Review</h3>
+<h3 class="center-align">Edit Review</h3>
 
 
 <div class="row card-panel grey lighten-5">
@@ -14,14 +14,18 @@
                 <label for="review_name">Name</label>
             </div>
         </div>
-         <!-- category id -->
+         <!-- camp id -->
          <div class="row">
             <div class="input-field col s12">
                 <i class="fas fa-folder-open prefix light-blue-text text-darken-4"></i>
                 <select id="camp_id" name="camp_id" class="validate" required>
-                    <option value="" disabled selected>Choose Camp</option>
+                    <option value="" disabled>Choose Camp</option>
                     {% for camp in camps %}
-                        <option value="{{ camp.id }}">{{ camps.camp_name }}</option>
+                        {% if camp == review.camp %}
+                            <option value="{{ camp.id }}" selected>{{ camp.camp_name }}</option>
+                        {% else %}
+                            <option value="{{ camp.id }}">{{ camp.camp_name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
                 <label for="camp_id">Camp</label>
@@ -33,7 +37,7 @@
             <div class="input-field col s12">
                 <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
                 <textarea id="review_text" name="review_text" minlength="10" maxlength="500"
-                    type="text" class="materialize-textarea validate" required></textarea>
+                    type="text" class="materialize-textarea validate" required>{{- review.review_text -}}</textarea>
                 <label for="review_text">What you'd like to tell others about your stay:</label>
             </div>
         </div>

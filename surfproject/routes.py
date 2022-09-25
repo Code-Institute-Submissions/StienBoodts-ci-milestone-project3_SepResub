@@ -6,6 +6,7 @@ from surfproject.models import Review, Camp
 def home():
     return render_template("home.html")
 
+
 @app.route("/camps")
 def camps():
     camps = list(Camp.query.order_by(Camp.camp_name).all())
@@ -14,8 +15,9 @@ def camps():
 
 @app.route("/reviews/<int:camp_id>", methods=["GET"])
 def reviews(camp_id):
-    review = Review.query.get_or_404(camp_id)
-    return render_template("reviews.html", review=review)
+    reviews = list(Review.query.all())
+    return render_template("reviews.html", reviews=reviews, camp_id=camp_id)
+
 
 @app.route("/new_camp", methods=["GET", "POST"])
 def new_camp():
@@ -60,4 +62,4 @@ def delete_review(review_id):
     review = Review.query.get_or_404(review_id)
     db.session.delete(review)
     db.session.commit()
-    return redirect(url_for("reviews"))
+    return redirect(url_for("home"))
