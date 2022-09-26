@@ -14,4 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let paral = document.querySelectorAll('.parallax');
     vM.Parallax.init(paral);
-});
+
+// Initialise Materialize Modal
+
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, {});
+    
+  });

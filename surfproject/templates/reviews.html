@@ -22,20 +22,26 @@
                     <p>{{ review.review_text }}</p>
                     <p>
                         <a href="{{ url_for('edit_review', review_id=review.id) }}" class="btn green accent-4">Edit</a>
-                        <a href="#modeal-{{ review.id }}" class="btn red accent-4 waves-effect waves-light modal-trigger">Delete</a>
+                        <a href="#modal{{ review.id }}" class="btn red accent-4 waves-effect waves-light modal-trigger">Delete</a>
 
                         <!-- Modal Structure -->
-                        <div id="modeal-{{ review.id }}" class="modal">
+                        <div id="modal{{ review.id }}" class="modal">
                             <div class="modal-content">
                             <h4>Did you write this review?</h4>
                             <p>Please only delete your own.</p>
                             </div>
                             <div class="modal-footer">
-                            <a href="modal-close" class="modal-close waves-effect waves-green btn-flat">Go Back</a>
+                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Go Back</a>
                             <a href="{{ url_for('delete_review', review_id=review.id) }}" class="btn red accent-4">Yes, please delete.</a>
 
                             </div>
                         </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                              var elems = document.querySelectorAll('.modal');
+                              var instances = M.Modal.init(elems, {});
+                            });
+                          </script>
                     </p>
                     </div>
                 </div>
