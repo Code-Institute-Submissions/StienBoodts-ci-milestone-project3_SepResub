@@ -27,7 +27,7 @@ p {
     min-width: 1024px;
 	
     /* Set up proportionate scaling */
-    width: 100%;
+    width: 150%;
     height: auto;
         
     /* Set up positioning */
@@ -71,5 +71,9 @@ p {
   
   footer.page-footer {
     margin: 0;
+  }
+
+  #logo-container {
+    font-size: 23px;
   }
   

@@ -5,18 +5,22 @@
     <div class="section no-pad-bot">
       <div class="container">
         <br><br>
-        <h1 class="header center teal-text text-lighten-2">Women's Surf Camps</h1>
+        <h1 class="header center teal">Women's Surf Camps</h1>
         <div class="row center">
-          <h5 class="header col s12 light">Rated by you!</h5>
+          <h5 class="header col s12 orange-text text-lighten">Rated by you!</h5>
         </div>
         <div class="row center">
-          <a href="{{ url_for('new_review')}}" id="review-button" class="btn-large waves-effect waves-light teal lighten-1"><i class="fa-solid fa-square-plus"></i> Leave A Review</a>
+          <a href="{{ url_for('new_review')}}" id="review-button">
+            <button class="btn-large teal darken-5 waves-effect waves-light">
+              Add Review <i class="fas fa-plus-square right"></i>
+            </button>
+          </a>
         </div>
         <br><br>
 
       </div>
     </div>
-    <div class="parallax"><img src="{{ url_for('static', filename='images/background1.jpg') }}" alt="background img 1"></div>
+    <div class="parallax"><img src="{{ url_for('static', filename='images/background2.jpeg') }}" alt="background img 1"></div>
   </div>
 
 
@@ -73,7 +77,7 @@
         </div>
       </div>
     </div>
-    <div class="parallax"><img src="{{ url_for('static', filename='images/background1.jpg') }}" alt="Unsplashed background img 2"></div>
+    <div class="parallax"><img src="{{ url_for('static', filename='images/background2.jpeg') }}" alt="Unsplashed background img 2"></div>
   </div>
 
   <div class="container">
@@ -82,7 +86,7 @@
       <div class="row">
         <div class="col s12 center">
           <h3><i class="mdi-content-send brown-text"></i></h3>
-          <h4>Contact Us</h4>
+          <h4 class="orange-text text-lighten">Contact Us</h4>
           <p class="center-align light">Do you have a question? Would you like to work together?
             Don't hesitate to get in touch via 
             <a href="mailto:stien.boodts@gmail.com?subject=The%20Surf%20Project%20Website">hello@thesurfproject.com</a>.
@@ -102,7 +106,7 @@
         </div>
       </div>
     </div>
-    <div class="parallax"><img src="{{ url_for('static', filename='images/background1.jpg') }}" alt="Unsplashed background img 3"></div>
+    <div class="parallax"><img src="{{ url_for('static', filename='images/background2.jpeg') }}" alt="Unsplashed background img 3"></div>
   </div>
 
 
