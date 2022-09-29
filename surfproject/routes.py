@@ -1,16 +1,28 @@
 from flask import render_template, request, redirect, url_for
 from surfproject import app, db
 from surfproject.models import Review, Camp
+from werkzeug.security import generate_password_hash, check_password_hash
 
 @app.route("/")
 def home():
     return render_template("home.html")
 
 
+@app.route("/register", methods=["GET", "PUSH"])
+def register():
+    return render_template("register.html")
+
+
 @app.route("/camps")
 def camps():
     camps = list(Camp.query.order_by(Camp.camp_name).all())
     return render_template("camps.html", camps=camps)
+
+
+@app.route("/get_reviews")
+def get_reviews():
+    reviews = mongo.db.tasks.find()
+    return render_template("reviews.html", tasks=tasks)
 
 
 @app.route("/reviews/<int:camp_id>", methods=["GET"])
