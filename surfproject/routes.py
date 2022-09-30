@@ -1,9 +1,8 @@
-from flask import render_template, request, redirect, url_for
-from surfproject import app, db
-from surfproject.models import Review, Camp
-from flask_pymongo import PyMongo
+from flask import flash, render_template, request, redirect, session, url_for
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
+from surfproject import app, db, mongo
+from surfproject.models import Camp, Users
 
 
 @app.route("/")
@@ -11,27 +10,85 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/register", methods=["GET", "PUSH"])
+@app.route("/search", methods=["GET","POST"])
+def search():
+    query = request.form.get("query")
+    reviews = list(mongo.db.reviews.find({"$text": {"$search": query}}))
+    return render_template("reviews.html", reviews=reviews)
+
+
+@app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         # check if username already exists in db
-        existing_user = mongo.db.users.find_one(
-            {"username": request.form.get("username").lower()})
+        existing_user = Users.query.filter(Users.user_name == \
+                                           request.form.get("username").lower()).all()
         
         if existing_user:
             flash("Username already exists")
             return redirect(url_for("register"))
         
-        register = {
-            "username": request.form.get("username").lower(),
-            "password": generate_password_hash(request.form.get("password"))
-        }
-        mongo.db.users.insert_one(register)
+        user = Users(
+            user_name=request.form.get("username").lower(),
+            password=generate_password_hash(request.form.get("password"))
+        )
+        
+        db.session.add(user)
+        db.session.commit()
 
         # put the new user into 'session' cookie
         session["user"] = request.form.get("username").lower()
         flash("Registration Successful!")
+        return redirect(url_for("profile", username=session["user"]))
+
     return render_template("register.html")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        # check if username exists in db
+        existing_user = Users.query.filter(Users.user_name == \
+                                           request.form.get("username").lower()).all()
+
+        if existing_user:
+            print(request.form.get("username"))
+            # ensure hashed password matches user input
+            if check_password_hash(
+                    existing_user[0].password, request.form.get("password")):
+                        session["user"] = request.form.get("username").lower()
+                        flash("Welcome, {}".format(
+                            request.form.get("username")))
+                        return redirect(url_for(
+                            "profile", username=session["user"]))
+            else:
+                # invalid password match
+                flash("Incorrect Username and/or Password")
+                return redirect(url_for("login"))
+
+        else:
+            # username doesn't exist
+            flash("Incorrect Username and/or Password")
+            return redirect(url_for("login"))
+
+    return render_template("login.html")
+
+
+@app.route("/profile/<username>", methods=["GET", "POST"])
+def profile(username):
+        
+    if "user" in session:
+        return render_template("profile.html", username=session["user"])
+
+    return redirect(url_for("login"))
+
+
+@app.route("/logout")
+def logout():
+    # remove user from session cookie
+    flash("You have been logged out")
+    session.pop("user")
+    return redirect(url_for("login"))
 
 
 @app.route("/camps")
@@ -42,13 +99,13 @@ def camps():
 
 @app.route("/get_reviews")
 def get_reviews():
-    reviews = mongo.db.tasks.find()
-    return render_template("reviews.html", tasks=tasks)
+    reviews = list(mongo.db.reviews.find())
+    return render_template("reviews.html", reviews=reviews)
 
 
-@app.route("/reviews/<int:camp_id>", methods=["GET"])
+@app.route("/reviews/<camp_id>", methods=["GET"])
 def reviews(camp_id):
-    reviews = list(Review.query.all())
+    reviews = list(mongo.db.reviews.find())
     return render_template("reviews.html", reviews=reviews, camp_id=camp_id)
 
 
@@ -64,35 +121,57 @@ def new_camp():
 
 @app.route("/new_review", methods=["GET", "POST"])
 def new_review():
-    camps = list(Camp.query.order_by(Camp.camp_name).all())
+    if "user" not in session:
+        flash("You need to be logged in to add a review")
+        return redirect(url_for("get_reviews"))
+    
     if request.method == "POST":
-        review = Review(
-            review_name=request.form.get("review_name"),
-            review_text=request.form.get("review_text"),
-            camp_id=request.form.get("camp_id")
-        )
-        db.session.add(review)
-        db.session.commit()
-        return redirect(url_for("camps"))
+        review = {
+            "review_name": request.form.get("review_name"),
+            "review_text": request.form.get("review_text"),
+            "camp_id": request.form.get("camp_id")
+        }
+        mongo.db.reviews.insert_one(review)
+        flash("Review Successfully Added")
+        return redirect(url_for("get_reviews"))
+    
+    camps = list(Camp.query.order_by(Camp.camp_name).all())
     return render_template("new_review.html", camps=camps)
 
 
-@app.route("/edit_review/<int:review_id>", methods=["GET", "POST"])
+@app.route("/edit_review/<review_id>", methods=["GET", "POST"])
 def edit_review(review_id):
-    review = Review.query.get_or_404(review_id)
-    camps = list(Camp.query.order_by(Camp.camp_name).all())
+
+    review = mongo.db.reviews.find_one({"_id": ObjectId(review_id)})
+
+    if "user" not in session or session["user"] != review["created_by"]:
+        flash("You can only edit your own reviews!")
+        return redirect(url_for("get_reviews"))
+
     if request.method == "POST":
-        review.review_name = request.form.get("review_name"),
-        review.review_text = request.form.get("review_text"),
-        review.camp_id = request.form.get("camp_id")
-        db.session.commit()
-        return redirect(url_for("camps"))
+        submit = {
+        "review_name": request.form.get("review_name"),
+        "review_text": request.form.get("review_text"),
+        "camp_id": request.form.get("camp_id"),
+        "created_by": session["user"]
+        }
+        mongo.db.reviews.update({"_id": ObjectId(review_id)}, submit)
+        flash("Review Successfully Updated")
+
+
+    camps = list(Camp.query.order_by(Camp.camp_name).all())
     return render_template("edit_review.html", review=review, camps=camps)
 
 
-@app.route("/delete_review/<int:review_id>")
+@app.route("/delete_review/<review_id>")
 def delete_review(review_id):
-    review = Review.query.get_or_404(review_id)
-    db.session.delete(review)
-    db.session.commit()
-    return redirect(url_for("home"))
+
+    review = mongo.db.reviews.find_one({"_id": ObjectId(review_id)})
+
+    if "user" not in session or session["user"] != review["created_by"]:
+        flash("You can only delete your own reviews!")
+        return redirect(url_for("get_reviews"))
+    
+    mongo.db.reviews.remove({"_id": ObjectId(review_id)})
+    flash("Review Successfully Deleted")
+    return redirect(url_for("get_reviews"))
