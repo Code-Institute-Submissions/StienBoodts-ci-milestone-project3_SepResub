@@ -103,7 +103,7 @@ def get_reviews():
     return render_template("reviews.html", reviews=reviews)
 
 
-@app.route("/reviews/<camp_id>", methods=["GET"])
+@app.route("/reviews/<camp_id>", methods=["GET", "POST"])
 def reviews(camp_id):
     reviews = list(mongo.db.reviews.find())
     return render_template("reviews.html", reviews=reviews, camp_id=camp_id)
