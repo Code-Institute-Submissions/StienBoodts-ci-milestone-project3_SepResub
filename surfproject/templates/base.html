@@ -59,14 +59,14 @@
             {% if messages %}
                 {% for message in messages %}
                     <div class="row flashes">
-                        <h4 class="light-teal center-align">{{ message }}</h4>
+                        <h4 class="red darken-2 white-text center-align">{{ message }}</h4>
                     </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </section>
 
-    <main class="container">
+    <main class="main-container container">
         {% block content %}
         {% endblock %}
     </main>

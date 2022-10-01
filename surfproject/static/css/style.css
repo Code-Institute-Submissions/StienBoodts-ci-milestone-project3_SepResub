@@ -8,6 +8,10 @@ body {
   main {
     flex: 1 0 auto;
   }
+
+  .main-container {
+    width: 100%;
+  }
       
   nav ul a,
   nav .brand-logo {
@@ -49,6 +53,13 @@ p {
     .parallax-container .section {
       width: 100%;
     }
+
+  @media only screen and (min-width : 993px) {
+    #logo-container {
+      padding-left: 30px;
+    }
+
+  }
   
   @media only screen and (max-width : 992px) {
     .parallax-container .section {
@@ -58,7 +69,9 @@ p {
     #index-banner .section {
       top: 10%;
     }
+
   }
+
   
   @media only screen and (max-width : 600px) {
     #index-banner .section {

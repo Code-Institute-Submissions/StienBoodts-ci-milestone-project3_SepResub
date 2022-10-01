@@ -14,13 +14,13 @@
 
 <div class="row">
     {% for camp in camps %}
-    <div class="col s12 m6 l3">
+    <div class="col s12 m6 l4">
       <div class="card teal lighten-2 center-align">
         <div class="card-content white-text">
           <span class="card-title">{{ camp.camp_name }}</span>
         </div>
         <div class="card-action center-align waves-effect waves-light">
-          <a href="{{ url_for('reviews', camp_id=camp.id) }}" class="btn g accent-4">Read Reviews</a>
+          <a href="{{ url_for('reviews', camp_id=camp.id) }}" class="readreviewsbtn btn g accent-4">Read Reviews</a>
         </div>
       </div>
     </div>

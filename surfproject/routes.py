@@ -10,13 +10,6 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/search", methods=["GET","POST"])
-def search():
-    query = request.form.get("query")
-    reviews = list(mongo.db.reviews.find({"$text": {"$search": query}}))
-    return render_template("reviews.html", reviews=reviews)
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -128,7 +121,8 @@ def new_review():
         review = {
             "review_name": request.form.get("review_name"),
             "review_text": request.form.get("review_text"),
-            "camp_id": request.form.get("camp_id")
+            "camp_id": request.form.get("camp_id"),
+            "created_by": session["user"]
         }
         mongo.db.reviews.insert_one(review)
         flash("Review Successfully Added")
