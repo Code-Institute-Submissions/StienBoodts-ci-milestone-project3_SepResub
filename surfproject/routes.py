@@ -76,7 +76,6 @@ def login():
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-        
     if "user" in session:
         return render_template("profile.html", username=session["user"])
 
