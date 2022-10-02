@@ -70,7 +70,8 @@ def login():
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
     if "user" in session:
-        return render_template("profile.html", username=session["user"])
+        reviews = list(mongo.db.reviews.find())
+        return render_template("profile.html", username=session["user"], reviews=reviews)
 
     return redirect(url_for("login"))
 
@@ -89,15 +90,16 @@ def camps():
     return render_template("camps.html", camps=camps)
 
 
-@app.route("/get_reviews")
-def get_reviews():
+@app.route("/all_reviews")
+def all_reviews():
     reviews = list(mongo.db.reviews.find())
-    return render_template("reviews.html", reviews=reviews)
+    return render_template("all_reviews.html", reviews=reviews)
 
 
 @app.route("/reviews/<camp_id>", methods=["GET", "POST"])
 def reviews(camp_id):
-    reviews = list(mongo.db.reviews.find())
+    coll = mongo.db.reviews
+    reviews = list(coll.find())
     return render_template("reviews.html", reviews=reviews, camp_id=camp_id)
 
 
@@ -115,7 +117,7 @@ def new_camp():
 def new_review():
     if "user" not in session:
         flash("You need to be logged in to add a review")
-        return redirect(url_for("get_reviews"))
+        return redirect(url_for("all_reviews"))
     
     if request.method == "POST":
         review = {
@@ -126,7 +128,7 @@ def new_review():
         }
         mongo.db.reviews.insert_one(review)
         flash("Review Successfully Added")
-        return redirect(url_for("get_reviews"))
+        return redirect(url_for("all_reviews"))
     
     camps = list(Camp.query.order_by(Camp.camp_name).all())
     return render_template("new_review.html", camps=camps)
@@ -139,20 +141,21 @@ def edit_review(review_id):
 
     if "user" not in session or session["user"] != review["created_by"]:
         flash("You can only edit your own reviews!")
-        return redirect(url_for("get_reviews"))
+        return redirect(url_for("all_reviews"))
 
     if request.method == "POST":
-        submit = {
-        "review_name": request.form.get("review_name"),
-        "review_text": request.form.get("review_text"),
-        "camp_id": request.form.get("camp_id"),
-        "created_by": session["user"]
-        }
-        mongo.db.reviews.update({"_id": ObjectId(review_id)}, submit)
+        submit = { "$set": {
+                "review_name": request.form.get("review_name"),
+                "review_text": request.form.get("review_text"),
+                "camp_id": request.form.get("camp_id"),
+                "created_by": session["user"]
+                }
+            }
+        mongo.db.reviews.update_one({"_id": ObjectId(review_id)}, submit)
         flash("Review Successfully Updated")
 
 
-    camps = list(Camp.query.order_by(Camp.camp_name).all())
+    camps = list(Camp.query.all())
     return render_template("edit_review.html", review=review, camps=camps)
 
 
@@ -163,8 +166,8 @@ def delete_review(review_id):
 
     if "user" not in session or session["user"] != review["created_by"]:
         flash("You can only delete your own reviews!")
-        return redirect(url_for("get_reviews"))
+        return redirect(url_for("all_reviews"))
     
-    mongo.db.reviews.remove({"_id": ObjectId(review_id)})
+    mongo.db.reviews.delete_one({"_id": ObjectId(review_id)})
     flash("Review Successfully Deleted")
-    return redirect(url_for("get_reviews"))
+    return redirect(url_for("all_reviews"))

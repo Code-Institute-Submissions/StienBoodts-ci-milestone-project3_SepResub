@@ -25,6 +25,7 @@
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{{ url_for('home') }}">Home</a></li>
                     <li><a href="{{ url_for('camps') }}">Camps</a></li>
+                    <li><a href="{{ url_for('all_reviews') }}">Reviews</a></li>
                     <li><a href="{{ url_for('new_review') }}">Write A Review</a></li>
                     {% if session.user %}
                         <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
@@ -42,6 +43,7 @@
             <li><h4 class="center-align brand-logo">The Surf Project</h4></li>
             <li><a href="{{ url_for('home') }}">Home</a></li>
             <li><a href="{{ url_for('camps') }}">Camps</a></li>
+            <li><a href="{{ url_for('all_reviews') }}">Reviews</a></li>
             <li><a href="{{ url_for('new_review') }}">Write A Review</a></li>
             {% if session.user %}
                 <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>

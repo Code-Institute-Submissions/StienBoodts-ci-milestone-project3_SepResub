@@ -5,7 +5,7 @@
 
 
 <div class="row card-panel orange lighten-4">
-    <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('edit_review', review_id=review.id) }}">
+    <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('edit_review', review_id=review._id) }}">
         <!-- Review name -->
         <div class="row">
             <div class="input-field col s12">
@@ -21,7 +21,7 @@
                 <select id="camp_id" name="camp_id" class="validate" required>
                     <option value="" disabled>Choose Camp</option>
                     {% for camp in camps %}
-                        {% if camp == review.camp %}
+                        {% if camp.id == review.camp_id %}
                             <option value="{{ camp.id }}" selected>{{ camp.camp_name }}</option>
                         {% else %}
                             <option value="{{ camp.id }}">{{ camp.camp_name }}</option>
@@ -44,8 +44,12 @@
         <!-- submit button -->
         <div class="row">
             <div class="col s12 center-align">
+                <!-- submit button -->
+                <a href="{{ url_for('all_reviews') }}" class="btn-large red">
+                    Cancel<i class="fas fa-times-circle right"></i>
+                </a>
                 <button type="submit" class="btn-large teal darken-5">
-                    Add Review <i class="fas fa-plus-square right"></i>
+                    Save Changes <i class="fas fa-plus-square right"></i>
                 </button>
             </div>
         </div>
