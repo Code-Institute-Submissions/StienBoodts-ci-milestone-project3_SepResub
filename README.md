@@ -106,9 +106,29 @@ To deploy the website from the repository onto Heroku the following steps were t
 1. Set up required files: requirement.txt and Procfile
 1. Push the created files to Github Repository
 1. Log into Heroku
-2. Click New -> Create New App
-3. Choose Name and appropriate region
-4. Navigate to the deploy 
+1. Click New -> Create New App
+1. Choose Name and appropriate region and click create app
+1. Navigate to the Resources tab
+1. Search for Heroku Postgres and add it as an add-on
+1. Click on Settings tab
+1. Scroll down and click on 'Config Vars'
+1. Add variables that are saved in env.py file
+1. Under the Deploy tab, choose to deploy from Github repo
+1. Search for the name of your repo and connect
+1. Select enable automatic deploys
+1. Select Deploy Branch
+1. Click More drop down button and select Run Console
+1. Next to heroku run type 'Python3' to access the interpreter
+Type the following commands onto the console:
+    - from surfproject import db
+    - db.create_all()
+    - exit()
+1. Finally, click on 'Open App' button.
+
+
+
+
+
 
 ## Credits
 
