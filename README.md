@@ -1,11 +1,15 @@
 <h1 align="center">The Surf Project</h1>
 
 
-An experience sharing website where users can tell others about their stays at women's surf camps.
+An experience-sharing website where users can tell others about their stays at women's surf camps.
 
 
+<h2 align="center"><img src="surfproject/static/images/alldevices.png"></h2>
 
-<h2 align="center"><img src=""></h2>
+## Wireframes
+
+<img src="surfproject/static/images/wireframe.png">
+<img src="surfproject/static/images/wireframe2.png">
 
 ## User Experience (UX)
 
@@ -19,18 +23,13 @@ An experience sharing website where users can tell others about their stays at w
 
     -   #### Returning Visitor Goals
 
-        1. As a Returning Visitor, I want to do look for a specific camp I am interested in.
+        1. As a Returning Visitor, I want to look for a specific camp I am interested in.
         2. As a Returning Visitor, I want to edit a review I previously submitted.
 
     -   #### Frequent User Goals
         1. As a Frequent User, I want to add new camps I have visited.
-        2. As a Frequent User, I want to read up on new reviews added by others.
+        2. As a Frequent User, I want to delete reviews I no longer find up-to-date.
         3. As a Frequent User, I want to add my own run surfcamp to the database so others can review.
-
-
-*   ### Wireframes
-
-
 
 
 ## Features
@@ -49,7 +48,7 @@ An experience sharing website where users can tell others about their stays at w
 -   [Python](https://en.wikipedia.org/wiki/Python_(programming_language))
 -   [flask](https://flask.palletsprojects.com/en/2.2.x/)
 -   [SQLAlchemy](https://www.sqlalchemy.org/)
--   
+-   [Pymongo](https://pymongo.readthedocs.io/en/stable/)
 
 ### Frameworks, Libraries & Programs Used
 
@@ -61,34 +60,61 @@ An experience sharing website where users can tell others about their stays at w
     - Git was used for version control by utilizing the Gitpod terminal to commit to Git and Push to GitHub.
 1. [GitHub:](https://github.com/)
     - GitHub is used to store the projects code after being pushed from Git.
-1. [Balsamiq:](https://balsamiq.com/)
-    - Balsamiq was used to create the wireframes during the design process.
 1. [Creately](https://creately.com/)
     - Creately was used to design the database.
+1. [MongoDB](https://www.mongodb.com/)
+    - MongoDB was used to store the reviews in a non-relational database
+1. [Heroku](https://www.heroku.com/)
+    - Heroku was used to deploy the website
 
 ## Testing
 
-Due to time issues Testing state hasn't been reached yet.
+The website was continually tested manually and with defensive coding included in the routes.py.
+
+It was thoroughly tested on different devices for responsiveness.
 
 
 ### Known Bugs
 
--   Reviews are not yet showing per camp.
--   General styling issues due to running out of time.
--   surf camp names not showing in drop down menu (font color??)
+When editing the review, the camp of the original review is no longer picked up and automatically selected.
+This was not an issue when I ran the project solely with SQLAlchemy but became a bug when I switched to using MongoDB to store the reviews. No 
 
 ## Deployment
 
-### GitHub Pages
-
 The project was deployed to Heroku and Github.
 
+### GitHub Pages
+
+This project was developed on Gitpod, committed to Git and pushed onto the [Github repository](https://github.com/StienBoodts/horizon-animatie-CI-MP2) using Bash. 
+
+To deploy the website from the repository onto Github Pages the following steps were taken:
+
+1. log into Github
+2. from the list of repositories, choose **StienBoodts/horizon-animatie-CI-MP2**.
+3. Navigate to **Settings** at the top of the repository.
+4. Choose **Pages** from the menu on the left of the page.
+5. In the Source Section, select **Branch: main** in the drop down menu.
+6. Leave **/(root)** selected in the next drop down menu.
+7. Press **Save**
+8. The page will refresh and the **link to the deployed website** will appear at the top.
+
+### Heroku 
+
+
+To deploy the website from the repository onto Heroku the following steps were taken:
+
+1. Set up required files: requirement.txt and Procfile
+1. Push the created files to Github Repository
+1. Log into Heroku
+2. Click New -> Create New App
+3. Choose Name and appropriate region
+4. Navigate to the deploy 
 
 ## Credits
 
 ### Code
 
--   Code Institute Walkthrough Project
+-   Code Institute Walkthrough Projects
 -  [Materialize](https://materializecss.com/getting-started.html)
 
 
